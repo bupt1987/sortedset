@@ -1,4 +1,4 @@
-// Copyright (c) 2016, Jerry.Wang
+// Copyright (c) 2020, Jerry
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -30,9 +30,9 @@ Introduction
 Every node in the set is associated with these properties.
 
     type SortedSetNode struct {
-        key      string      // unique key of this node
+        key      int64      // unique key of this node
         Value    interface{} // associated data
-        score    SCORE       // int64 score to determine the order of this node in the set
+        score    float64       // float64 score to determine the order of this node in the set
     }
 
 Each node in the set is associated with a key. While keys are unique, scores may be repeated. Nodes are taken in order (from low score to high score) instead of ordered afterwards. If scores are the same, the node is ordered by its key in lexicographic order. Each node in the set also can be accessed by rank, which represents the position in the sorted set.
@@ -50,29 +50,29 @@ Examples
     set := sortedset.New()
 
     // fill in new node
-    set.AddOrUpdate("a", 89, "Kelly")
-    set.AddOrUpdate("b", 100, "Staley")
-    set.AddOrUpdate("c", 100, "Jordon")
-    set.AddOrUpdate("d", -321, "Park")
-    set.AddOrUpdate("e", 101, "Albert")
-    set.AddOrUpdate("f", 99, "Lyman")
-    set.AddOrUpdate("g", 99, "Singleton")
-    set.AddOrUpdate("h", 70, "Audrey")
+    set.AddOrUpdate(1, 89, "Kelly")
+    set.AddOrUpdate(2, 100, "Staley")
+    set.AddOrUpdate(3, 100, "Jordon")
+    set.AddOrUpdate(4, -321, "Park")
+    set.AddOrUpdate(5, 101, "Albert")
+    set.AddOrUpdate(6, 99, "Lyman")
+    set.AddOrUpdate(7, 99, "Singleton")
+    set.AddOrUpdate(8, 70, "Audrey")
 
     // update an existing node by key
-    set.AddOrUpdate("e", 99, "ntrnrt")
+    set.AddOrUpdate(5, 99, "ntrnrt")
 
     // get the node by key
-    set.GetByKey("b")
+    set.GetByKey(2)
 
     // remove node by key
-    set.Remove("b")
+    set.Remove(2)
 
     // get the number of nodes in this set
     set.GetCount()
 
     // find the rank(postion) in the set.
-    set.FindRank("d") // return 1 here
+    set.FindRank(4) // return 1 here
 
     // get and remove the node with minimum score
     set.PopMin()
