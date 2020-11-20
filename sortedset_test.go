@@ -202,3 +202,27 @@ func BenchmarkSortedSet_GetDataByRank(b *testing.B) {
 		s.GetByKey(int64(i) % l)
 	}
 }
+
+func BenchmarkSortedSet_Remove(b *testing.B) {
+	b.StopTimer()
+	// data initialization
+	scores := make([]float64, b.N)
+	IDs := make([]int64, b.N)
+	for i := range IDs {
+		scores[i] = rand.Float64() + float64(rand.Int31n(99))
+		IDs[i] = int64(i) + 100000
+	}
+
+	// BCE
+	_ = scores[:b.N]
+	_ = IDs[:b.N]
+
+	for i := 0; i < b.N; i++ {
+		s.AddOrUpdate(IDs[i], scores[i], nil)
+	}
+
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		s.Remove(IDs[i])
+	}
+}
